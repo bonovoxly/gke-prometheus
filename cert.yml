@@ -1,0 +1,9 @@
+apiVersion: "stable.k8s.psg.io/v1"
+kind: "Certificate"
+metadata:
+  name: prometheus
+  namespace: monitoring
+  labels:
+    stable.k8s.psg.io/kcm.class: "kube-cert-manager"
+spec:
+  domain: "prometheus.EXAMPLE.ORG"

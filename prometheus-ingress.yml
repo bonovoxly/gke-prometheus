@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/auth-signin: https://$host/oauth2/sign_in
+    ingress.kubernetes.io/auth-url: https://$host/oauth2/auth
+    ingress.kubernetes.io/ssl-redirect: "true"
+  name: prometheus 
+  namespace: monitoring
+spec:
+  rules:
+  - host: prometheus.EXAMPLE.ORG
+    http:
+      paths:
+      - backend:
+          serviceName: prometheus
+          servicePort: 9090
+  tls:
+  - secretName: prometheus.EXAMPLE.ORG
+    hosts:
+      - prometheus.EXAMPLE.ORG
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: oauth-prometheus
+  namespace: kube-system
+spec:
+  rules:
+  - host: prometheus.EXAMPLE.ORG
+    http:
+      paths:
+      - backend:
+          serviceName: oauth
+          servicePort: 4180
+        path: /oauth2
+  tls:
+  - secretName: prometheus.EXAMPLE.ORG
+    hosts:
+      - prometheus.EXAMPLE.ORG

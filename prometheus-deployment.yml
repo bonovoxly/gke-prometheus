@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: prometheus
+  name: prometheus
+  namespace: monitoring
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: prometheus
+      name: prometheus
+    spec:
+      serviceAccount: prometheus
+      containers:
+      - name: prometheus
+        image: prom/prometheus:v2.0.0 
+        args:
+          - "--storage.tsdb.retention=180d"
+          - "--config.file=/etc/prometheus/config/prometheus.yml"
+        ports:
+        - containerPort: 9090
+          name: prometheus
+          protocol: TCP
+        resources:
+          requests:
+            memory: 400Mi
+        volumeMounts:
+        - mountPath: /etc/prometheus/config
+          name: prometheus-config
+          readOnly: true
+        - mountPath: /etc/prometheus/rules
+          name: prometheus-rules
+          readOnly: true
+        - mountPath: /prometheus
+          name: prometheus-data
+      volumes:
+      - name: prometheus-config
+        configMap:
+          defaultMode: 420
+          name: prometheus-config
+      - name: prometheus-rules
+        configMap:
+          defaultMode: 420
+          name: prometheus-rules
+      - name: "prometheus-data"
+        persistentVolumeClaim:
+          claimName: prometheus-data
