@@ -19,6 +19,7 @@ spec:
         image: prom/prometheus:v2.2.1
         args:
           - "--storage.tsdb.retention=180d"
+          - "--storage.tsdb.path=/prometheus/data"
           - "--config.file=/etc/prometheus/config/prometheus.yml"
         ports:
         - containerPort: 9090
@@ -36,6 +37,8 @@ spec:
           readOnly: true
         - mountPath: /prometheus
           name: prometheus-data
+      securityContext:
+        fsGroup: 65534
       volumes:
       - name: prometheus-config
         configMap:
