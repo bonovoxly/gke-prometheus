@@ -24,7 +24,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: oauth-prometheus
-  namespace: kube-system
+  namespace: default
 spec:
   rules:
   - host: prometheus.EXAMPLE.ORG
