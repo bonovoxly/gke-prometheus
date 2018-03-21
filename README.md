@@ -6,7 +6,7 @@ This deploys a Prometheus instance to Google Kubernetes Engine, in the namespace
 
 - A Google Cloud account with Google Kubernetes Engine configured.
 - The `monitoring` namespace.
-- [An NGINX Ingress Controller and a LetsEncrypt kube-cert-manager deployment](https://blog.billyc.io/2017/12/27/deploying-and-using-kube-cert-manager-with-an-nginx-ingress-controller-on-kubernetes/).
+- [An NGINX Ingress Controller and a LetsEncrypt kube-cert-manager deployment](https://blog.billyc.io/2017/12/27/deploying-and-using-kube-cert-manager-with-an-nginx-ingress-controller-on-kubernetes/). Note you will want/need this to access it publically, but it is not necessary to simply run Prometheus and Grafana in Kubernetes. This particular deployment uses it.
 - An oauth2_proxy service deployment.
 
 It integrates with these components to provide an ingress, a TLS secret, and an authentication mechanism.
